@@ -14,8 +14,7 @@ import {useDispatch, useSelector, RootStateOrAny} from 'react-redux';
 import AddGifImage from '../components/gif_image';
 import fetchDataFropmAPI from '../api/fetchGiffs';
 import {setGifsArr, setLoader, setSeachedTerm} from '../redux/actions/actions';
-import { debounce } from 'lodash'; 
-
+import {debounce} from 'lodash';
 
 const App = () => {
   const deboucedQuery = debounce(onEdit, 200);
