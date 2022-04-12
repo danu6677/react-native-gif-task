@@ -10,7 +10,7 @@ const initialState = {
   searched_text: '',
 };
 
-function userReducer(state = initialState, action) {
+function giffsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_GIFS_FROM_API:
       console.log('Gif Reducer called....');
@@ -23,4 +23,4 @@ function userReducer(state = initialState, action) {
       return state;
   }
 }
-export default userReducer;
+export default giffsReducer;

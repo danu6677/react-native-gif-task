@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "lodash": "^4.17.21",
     "react": "17.0.2",
     "react-native": "0.68.0",
     "react-redux": "^7.2.8",
@@ -23,6 +24,7 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.181",
     "@types/react-native": "^0.67.3",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
