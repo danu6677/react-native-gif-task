@@ -1,5 +1,5 @@
 import * as actions from '../actionTypes/action_types';
-
+//Set Actions for the added reducers
 export const setGifsArr = data => dispatch => {
   dispatch({
     type: actions.FETCH_GIFS_FROM_API,

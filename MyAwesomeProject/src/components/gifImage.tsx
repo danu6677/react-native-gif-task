@@ -2,21 +2,25 @@ import React from 'react';
 import {Image, View, StyleSheet} from 'react-native';
 
 export interface GifURl {
-  url: string;
+  url?: string | null | undefined;
 }
-
+//ImageView Conguration to display the Giffs
 const AddGifImage: React.FC<GifURl> = gif => {
-  return (
-    <View style={Styles.container}>
-      <Image
-        resizeMode="contain"
-        style={Styles.imageView}
-        source={{
-          uri: gif.url,
-        }}
-      />
-    </View>
-  );
+  if (gif.url) {
+    return (
+      <View style={Styles.container}>
+        <Image
+          resizeMode="contain"
+          style={Styles.imageView}
+          source={{
+            uri: gif.url,
+          }}
+        />
+      </View>
+    );
+  } else {
+    return <View />;
+  }
 };
 
 const Styles = StyleSheet.create({

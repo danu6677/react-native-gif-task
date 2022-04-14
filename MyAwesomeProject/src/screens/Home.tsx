@@ -9,44 +9,44 @@
  */
 
 import React from 'react';
-import {TextInput, View, FlatList, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector, RootStateOrAny} from 'react-redux';
-import AddGifImage from '../components/gif_image';
+import GiffListTile from '../components/giffList';
 import fetchDataFropmAPI from '../api/fetchGiffs';
 import {setGifsArr, setLoader, setSeachedTerm} from '../redux/actions/actions';
 import {debounce} from 'lodash';
+import {GiffList} from '../api/giffsModel';
+import SearchBar from '../components/searchBar';
+import {timeout} from '../utils/utils';
 
 const App = () => {
+  //Local Scoped Constants
+  const dispatch = useDispatch();
   const deboucedQuery = debounce(onEdit, 200);
-  const {giffs, is_loading, searched_text} = useSelector(
+  const {giffs, searched_text, is_loading} = useSelector(
     (state: RootStateOrAny) => state.giffsReducer,
   );
-  const dispatch = useDispatch();
 
+  //Fetch Data from the API
   async function fetchGifs() {
     dispatch(setLoader(true));
-    const response = await fetchDataFropmAPI(searched_text);
-    dispatch(setGifsArr(response));
-    console.log(is_loading);
-  }
+    const response: GiffList = await fetchDataFropmAPI(searched_text);
 
+    dispatch(setGifsArr(response));
+    await timeout(3000);
+    dispatch(setLoader(false));
+  }
+  //Every time the text changes this will pass to the debouce
   function onEdit(newTerm: string) {
     dispatch(setSeachedTerm(newTerm));
     fetchGifs();
   }
+
   return (
     <View style={styles.view}>
-      <TextInput
-        placeholder="Search Giphy"
-        placeholderTextColor="#999"
-        style={styles.textInput}
-        onChangeText={text => deboucedQuery(text)}
-      />
-      <FlatList
-        data={giffs}
-        renderItem={({item}) => <AddGifImage url={item.images.original.url} />}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <SearchBar onChange={deboucedQuery} />
+      <ActivityIndicator size="large" color="#FF0000" animating={is_loading} />
+      {giffs && <GiffListTile data={giffs as GiffList} />}
     </View>
   );
 };
@@ -57,17 +57,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 100,
     backgroundColor: 'darkblue',
-  },
-  textInput: {
-    width: '100%',
-    height: 80,
-    fontSize: 30,
-    color: 'white',
-  },
-  image: {
-    width: 300,
-    height: 150,
-    marginBottom: 5,
   },
 });
 export default App;
